@@ -24,7 +24,7 @@ python -m pip install rewise
 3. `correct` - corrected query
 4. `complete` - suggested queries
 
-All of these functions have a required argument `q` (query) and an optional argument, `lang` (language in `en-US` format).
+All of these functions have a required argument `q` (query) and an optional argument `lang` (language in [ISO 693](https://gist.github.com/Josantonius/b455e315bc7f790d14b136d61d9ae469) format).
 
 ### raw
 
@@ -46,7 +46,7 @@ This function returns a parsed version of the raw response only containing the f
 
 ### correct
 
-This function returns the search query corrected by Google, if applicable.
+This function returns the search query corrected by Google.
 
 ```
 >>> correct('new yerk')
@@ -55,7 +55,7 @@ This function returns the search query corrected by Google, if applicable.
 
 ### complete
 
-This function returns auto-completed search queries suggested by Google, if applicable.
+This function returns auto-completed search queries suggested by Google.
 
 ```
 >>> complete('new yerk')

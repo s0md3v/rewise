@@ -37,7 +37,14 @@ This function returns the original responses returned by Google.
 
 ### revise
 
-This function returns a parsed version of the raw response only containing the fields that the author of this library considers useful.
+This function returns a parsed version of the raw response only containing the fields that the author of this library considers useful. Here's an explanation of the fields
+
+- `corrected` corrected query, if possible.
+- `completed` suggested queries by Google, if any.
+    - `str` suggested query e.g. `new york`
+    - `fmt` suggested query, but formatted e.g. `New York`
+    - `img` image associated with the suggestion, if any. e.g. `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWk035eGDgU54tgzsd99rp99r_XclRqa2XIR-N5lkTP43uRdXoy8bMMFhR_4s&s=10`
+    - `info` additional information about the suggestion e.g. `City in New York State`
 
 ```
 >>> revise('new yerk')

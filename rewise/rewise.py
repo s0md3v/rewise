@@ -32,7 +32,7 @@ def _query(q, lang='en-US'):
     Returns:
         str : HTTP body
     """
-    api_url = 'https://www.google.com/complete/search'
+    api_url = 'http://www.google.com/complete/search'
     payload = {
         'q': q,
         'client': 'gws-wiz',

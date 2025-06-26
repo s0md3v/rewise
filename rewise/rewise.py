@@ -35,8 +35,8 @@ def _query(q, lang='en-US'):
     api_url = 'https://www.google.com/complete/search'
     payload = {
         'q': q,
-		'client': 'gws-wiz',
-		'xssi': 't',
+        'client': 'gws-wiz',
+        'xssi': 't',
         'hl': lang,
     }
     return _request(api_url, payload)

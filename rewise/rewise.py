@@ -35,10 +35,8 @@ def _query(q, lang='en-US'):
     api_url = 'https://www.google.com/complete/search'
     payload = {
         'q': q,
-        'cp': 1,
-        'client': 'psy-ab',
-        'xssi': 't',
-        'gs_ri': 'gws-wiz',
+		'client': 'gws-wiz',
+		'xssi': 't',
         'hl': lang,
     }
     return _request(api_url, payload)
@@ -54,7 +52,7 @@ def _load(body):
     Returns:
         dict
     """
-    clean = re.sub(r'^[^\[]*\n\[', '[', body)
+    clean = re.search(r'\[.*\]', body).group(0)
     return json.loads(clean)
 
 
@@ -72,18 +70,19 @@ def _parse(body, mode='revise'):
         list : when mode is 'complete'
     """
     data = _load(body)
-    complete, correct = data[0], data[1]
+    suggestions = data[0] if data and len(data) > 0 else []
+    correction_data = data[1] if data and len(data) > 1 else {}
     if mode == 'correct':
-        return re.sub(r'</?sc>', '', correct.get('o', ''))
+        return re.sub(r'</?sc>', '', correction_data.get('o', ''))
     elif mode == 'complete':
-        return [re.sub(r'</?b>', '', item[0]) for item in complete]
+        return [re.sub(r'</?b>', '', item[0]) for item in suggestions]
     else:
         parsed = {
             'corrected': '',
             'completed': [],
         }
-        parsed['corrected'] = re.sub(r'</?sc>', '', correct.get('o', ''))
-        for item in complete:
+        parsed['corrected'] = re.sub(r'</?sc>', '', correction_data.get('o', ''))
+        for item in suggestions:
             this = {
                 'str': '',
                 'fmt': '',
@@ -91,7 +90,7 @@ def _parse(body, mode='revise'):
                 'info': '',
             }
             this['str'] = re.sub(r'</?b>', '', item[0])
-            if len(item) > 3:
+            if len(item) > 3 and isinstance(item[3], dict):
                 meta = item[3]
                 this['fmt'] = meta.get('zh', '')
                 this['img'] = meta.get('zs', '')
